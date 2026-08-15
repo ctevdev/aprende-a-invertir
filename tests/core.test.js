@@ -44,6 +44,14 @@ test('normaliza el estado y descarta claves o tipos desconocidos', () => {
   assert.deepEqual(state.journal, undefined);
 });
 
+test('conserva únicamente las condiciones de preparación esperadas', () => {
+  const state = normalizeState({
+    readiness: [true, 0, 'sí', null, false]
+  }, { ...config, readinessCount: 4 });
+
+  assert.deepEqual(state.readiness, [true, false, true, false]);
+});
+
 test('acepta respaldos actuales y heredados, pero rechaza JSON arbitrario', () => {
   assert.equal(isBackupCandidate({ app: 'RutaETF' }), true);
   assert.equal(isBackupCandidate({ lessons: {} }), true);
