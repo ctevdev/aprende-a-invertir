@@ -10,6 +10,11 @@
 </head>
 <body class="prerequisite-pending">
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  <aside class="backup-dock" aria-label="Respaldo del progreso">
+    <div><strong>Tu avance</strong><span id="backupStatus" role="status" aria-live="polite">Guardado automáticamente aquí</span></div>
+    <button type="button" id="quickExportBtn">↓ Guardar avance</button>
+    <button type="button" id="quickImportBtn">↑ Restaurar avance</button>
+  </aside>
   <header class="hero">
     <nav class="nav wrap" aria-label="Navegación principal">
       <a class="brand" href="#inicio">Ruta<span>ETF</span></a>
@@ -372,12 +377,13 @@
 
     <!-- ══ Progreso y datos ══ -->
     <section class="section wrap">
-      <div class="section-heading"><p class="eyebrow">Tus datos</p><h2>Progreso, respaldo y reinicio</h2><p>Todo se guarda en el almacenamiento local de este navegador. Si borras los datos del sitio o cambias de equipo, se pierde.</p></div>
+      <div class="section-heading"><p class="eyebrow">Tus datos</p><h2>Progreso, respaldo y reinicio</h2><p>El avance se guarda automáticamente en este navegador. Para cambiar de navegador o equipo, descarga una copia y restáurala allí.</p></div>
       <div class="data-panel">
         <div id="dataSummary" class="data-summary"></div>
+        <div class="backup-guide"><span>1</span><p><strong>Guarda</strong> el archivo de avance.</p><span>2</span><p><strong>Transfiérelo</strong> al otro dispositivo.</p><span>3</span><p><strong>Restáuralo</strong> y continuarás donde quedaste.</p></div>
         <div class="data-actions">
-          <button class="button ghost solid" id="exportBtn" type="button">Exportar progreso (JSON)</button>
-          <label class="button ghost solid file-btn">Importar respaldo<input id="importInput" type="file" accept="application/json" hidden></label>
+          <button class="button ghost solid" id="exportBtn" type="button">Guardar avance en un archivo</button>
+          <label class="button ghost solid file-btn">Restaurar avance desde un archivo<input id="importInput" type="file" accept="application/json,.json" hidden></label>
           <button class="button danger" id="resetBtn" type="button">Borrar todo mi progreso</button>
         </div>
         <p class="microcopy" id="dataMsg" role="status"></p>

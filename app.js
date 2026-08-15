@@ -48,6 +48,8 @@ function loadState() {
 function saveState(patch) {
   const next = normalizeState({ ...loadState(), ...patch }, STATE_CONFIG);
   try { localStorage.setItem(STATE_KEY, JSON.stringify(next)); } catch { /* almacenamiento lleno o bloqueado */ }
+  const status = $('#backupStatus');
+  if (status) status.textContent = `Guardado automáticamente a las ${new Date().toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}`;
   return next;
 }
 function migrateLegacy() {
@@ -990,16 +992,26 @@ function renderDataSummary() {
     .map(([k, v]) => `<div><span>${k}</span><strong>${v}</strong></div>`).join('');
 }
 
-$('#exportBtn').addEventListener('click', () => {
+function showBackupMessage(message) {
+  $('#backupStatus').textContent = message;
+  $('#dataMsg').textContent = message;
+}
+
+function exportProgress() {
   const blob = new Blob([JSON.stringify(loadState(), null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `rutaetf-progreso-${new Date().toISOString().slice(0, 10)}.json`;
+  const stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
+  a.download = `rutaetf-avance-${stamp}.json`;
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
-  $('#dataMsg').textContent = 'Respaldo descargado.';
-});
+  showBackupMessage('Copia descargada. Consérvala para restaurarla en otro navegador.');
+}
+
+$('#exportBtn').addEventListener('click', exportProgress);
+$('#quickExportBtn').addEventListener('click', exportProgress);
+$('#quickImportBtn').addEventListener('click', () => $('#importInput').click());
 
 $('#importInput').addEventListener('change', event => {
   const file = event.target.files[0];
@@ -1011,10 +1023,10 @@ $('#importInput').addEventListener('change', event => {
       if (!isBackupCandidate(data)) throw new Error('formato');
       const safeState = normalizeState(data, STATE_CONFIG);
       localStorage.setItem(STATE_KEY, JSON.stringify(safeState));
-      $('#dataMsg').textContent = 'Respaldo importado. Recargando…';
+      showBackupMessage('Avance restaurado. Recargando…');
       setTimeout(() => location.reload(), 600);
     } catch {
-      $('#dataMsg').textContent = 'No se pudo leer el archivo: no parece un respaldo válido de RutaETF.';
+      showBackupMessage('No se pudo restaurar: el archivo no parece un respaldo válido de RutaETF.');
     }
   };
   reader.readAsText(file);
