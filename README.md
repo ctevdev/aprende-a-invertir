@@ -90,6 +90,7 @@ El respaldo exportado incluye `app: "RutaETF"` y `schemaVersion: 2`. La importac
 
 - Enlace para saltar al contenido principal.
 - Foco visible para enlaces, controles y paneles.
+- Los niveles y exámenes bloqueados indican de forma visible el prerrequisito pendiente.
 - Pestañas navegables con flechas izquierda/derecha, Inicio y Fin.
 - Regiones de estado anunciadas por tecnologías de asistencia.
 - Diseño adaptable y respeto por `prefers-reduced-motion`.
