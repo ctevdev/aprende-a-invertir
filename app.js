@@ -133,7 +133,7 @@ function renderBlock(block, lessonId, index) {
 
 function renderLesson(lesson) {
   const blocks = lesson.blocks.map((b, i) => renderBlock(b, lesson.id, i)).join('');
-  return `<article id="${lesson.id}" class="lesson-card">
+  return `<article id="${lesson.id}" class="lesson-card" role="tabpanel" aria-labelledby="lesson-tab-${lesson.id}">
     <div class="lesson-top">
       <div>
         <p class="week">Lección ${lesson.num} · ${lesson.tag} · ${lesson.min} min</p>
@@ -155,6 +155,7 @@ function renderLesson(lesson) {
 
 /* ─────────────── Niveles y academia ─────────────── */
 let activeLevel = loadState().activeLevel || 'n1';
+const activeLessonByLevel = {};
 
 function progressionState() {
   return buildProgression(window.CURRICULUM, loadState());
@@ -178,6 +179,21 @@ function levelStats(mod) {
   const total = mod.lessons.length;
   const studied = mod.lessons.filter(l => done[l.id]).length;
   return { total, studied, percent: total ? Math.round(studied / total * 100) : 0 };
+}
+
+function selectedLessonForLevel(mod) {
+  const remembered = activeLessonByLevel[mod.id];
+  if (mod.lessons.some(lesson => lesson.id === remembered)) return remembered;
+  const done = loadState().lessons || {};
+  return (mod.lessons.find(lesson => !done[lesson.id]) || mod.lessons[0]).id;
+}
+
+function selectLesson(lessonId, scroll = true) {
+  const mod = window.CURRICULUM.find(level => level.id === activeLevel);
+  if (!mod?.lessons.some(lesson => lesson.id === lessonId)) return;
+  activeLessonByLevel[mod.id] = lessonId;
+  renderAcademy();
+  if (scroll) $('#levelContent').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function renderLevelGrid() {
@@ -216,6 +232,10 @@ function renderAcademy() {
   const mod = window.CURRICULUM.find(m => m.id === activeLevel) || window.CURRICULUM[0];
   const s = levelStats(mod);
   const access = levelAccess(mod.id);
+  const selectedLessonId = selectedLessonForLevel(mod);
+  const selectedIndex = mod.lessons.findIndex(lesson => lesson.id === selectedLessonId);
+  const selectedLesson = mod.lessons[selectedIndex];
+  activeLessonByLevel[mod.id] = selectedLessonId;
   $('#levelContent').setAttribute('aria-labelledby', `level-tab-${mod.id}`);
 
   $('#levelBanner').innerHTML = `<div>
@@ -228,10 +248,18 @@ function renderAcademy() {
 
   $('#lessonIndex').innerHTML = mod.lessons.map(l => {
     const done = (loadState().lessons || {})[l.id];
-    return `<a href="#${l.id}" class="${done ? 'done' : ''}"><span>${String(l.num).padStart(2, '0')}</span> ${l.title}</a>`;
+    const selected = l.id === selectedLessonId;
+    return `<button type="button" role="tab" id="lesson-tab-${l.id}" data-lesson-tab="${l.id}" class="${done ? 'done' : ''}${selected ? ' active' : ''}" aria-controls="${l.id}" aria-selected="${selected}" tabindex="${selected ? 0 : -1}"><span>${String(l.num).padStart(2, '0')}</span><strong>${l.title}</strong>${done ? '<i>✓</i>' : ''}</button>`;
   }).join('') + `<a href="#evaluacion" class="index-exam${access.examUnlocked ? '' : ' locked'}" aria-disabled="${!access.examUnlocked}"><span>${access.examUnlocked ? '✓' : '🔒'}</span> ${access.examUnlocked ? 'Presentar examen del nivel' : `Examen bloqueado · estudia ${access.total - access.studied} ${access.total - access.studied === 1 ? 'lección' : 'lecciones'} más`}</a>`;
 
-  $('#lessons').innerHTML = mod.lessons.map(renderLesson).join('');
+  const previous = mod.lessons[selectedIndex - 1];
+  const next = mod.lessons[selectedIndex + 1];
+  $('#lessons').innerHTML = `${renderLesson(selectedLesson)}
+    <nav class="lesson-navigation" aria-label="Navegación entre lecciones">
+      <button type="button" class="button ghost dark" data-lesson-move="${previous?.id || ''}" ${previous ? '' : 'disabled'}>← ${previous ? 'Anterior' : 'Primera lección'}</button>
+      <span><strong>Lección ${selectedIndex + 1} de ${mod.lessons.length}</strong><small>${s.studied} estudiadas</small></span>
+      <button type="button" class="button primary" data-lesson-move="${next?.id || ''}" ${next ? '' : 'disabled'}>${next ? 'Siguiente' : 'Nivel terminado'} →</button>
+    </nav>`;
   restoreLessonBoxes();
   updateGlobalProgress();
 }
@@ -248,9 +276,15 @@ function restoreLessonBoxes() {
       box.closest('.lesson-card').classList.toggle('studied', box.checked);
       renderLevelGrid(); renderLevelTabs(); updateGlobalProgress();
       const mod = window.CURRICULUM.find(m => m.id === activeLevel);
-      $('#lessonIndex').querySelectorAll('a').forEach((a, i) => {
-        if (mod.lessons[i]) a.classList.toggle('done', Boolean((loadState().lessons || {})[mod.lessons[i].id]));
+      $('#lessonIndex').querySelectorAll('[data-lesson-tab]').forEach((tab, i) => {
+        if (mod.lessons[i]) {
+          const done = Boolean((loadState().lessons || {})[mod.lessons[i].id]);
+          tab.classList.toggle('done', done);
+          tab.querySelector('i')?.remove();
+          if (done) tab.insertAdjacentHTML('beforeend', '<i>✓</i>');
+        }
       });
+      $('.lesson-navigation span small').textContent = `${levelStats(mod).studied} estudiadas`;
       renderBanner();
       renderExamTabs(); renderExam(); renderExamScores();
     });
@@ -265,6 +299,16 @@ function restoreLessonBoxes() {
     });
   });
 }
+
+$('#lessonIndex').addEventListener('click', event => {
+  const tab = event.target.closest('[data-lesson-tab]');
+  if (tab) selectLesson(tab.dataset.lessonTab);
+});
+
+$('#lessons').addEventListener('click', event => {
+  const button = event.target.closest('[data-lesson-move]');
+  if (button?.dataset.lessonMove) selectLesson(button.dataset.lessonMove);
+});
 
 function renderBanner() {
   const mod = window.CURRICULUM.find(m => m.id === activeLevel);

@@ -47,6 +47,8 @@ Cada lección incluye objetivos de aprendizaje, explicación, tablas comparativa
 
 Los niveles siguen una progresión obligatoria. El examen de un nivel solo se habilita al marcar todas sus lecciones como estudiadas, y el siguiente nivel se desbloquea únicamente después de aprobar ese examen. La certificación final requiere haber completado los cuatro niveles.
 
+Dentro de cada nivel, las siete lecciones se presentan como pestañas y solo una permanece visible. También se puede avanzar con los controles Anterior y Siguiente; en pantallas pequeñas, las pestañas forman una barra horizontal desplazable.
+
 ### Herramientas
 
 - **Laboratorio** con seis calculadoras: crecimiento compuesto real (con inflación y costos), impacto de las comisiones a largo plazo, costo real de una compra internacional, prueba de estrés por drawdown, capital objetivo para independencia financiera y rebalanceo por bandas.
