@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Academia educativa de inversión en ETFs y acciones desde Colombia: 4 niveles, 28 lecciones, laboratorio de calculadoras, glosario y exámenes.">
   <title>Ruta ETF — De cero a experto en inversión</title>
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="prerequisite-pending">
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
   <header class="hero">
     <nav class="nav wrap" aria-label="Navegación principal">
@@ -19,7 +20,7 @@
     <div id="inicio" class="hero-grid wrap">
       <div>
         <p class="eyebrow">Academia educativa · Colombia</p>
-        <h1>De cero a experto en inversión.</h1>
+        <h1 tabindex="-1">De cero a experto en inversión.</h1>
         <p class="lead">Cuatro niveles, veintiocho lecciones y un laboratorio de calculadoras para pasar de no entender el vocabulario a operar con un sistema escrito. Sin promesas de rentabilidad y sin atajos.</p>
         <div class="hero-actions">
           <a class="button primary" href="#niveles">Ver la ruta completa</a>
@@ -49,21 +50,30 @@
 
   <main id="main-content" tabindex="-1">
     <!-- ══ Diagnóstico ══ -->
-    <section class="section wrap" aria-labelledby="diagnostico-title">
-      <div class="section-heading">
-        <p class="eyebrow">Antes de abrir el broker</p>
-        <h2 id="diagnostico-title">¿Estás listo para invertir?</h2>
-        <p>Marca cada condición con honestidad. Si falta una, esa es tu prioridad real; el resto de la ruta puede esperar.</p>
+    <section id="prerequisito" class="prerequisite-section" aria-labelledby="diagnostico-title">
+      <div class="wrap prerequisite-shell">
+        <div class="prerequisite-heading">
+          <a class="prerequisite-brand" href="#prerequisito">Ruta<span>ETF</span></a>
+          <p class="eyebrow">Paso obligatorio · Antes de invertir</p>
+          <h1 id="diagnostico-title">Primero protege tu base.</h1>
+          <p class="prerequisite-lead">Esta academia no se desbloquea marcando respuestas ideales. Se desbloquea cuando realmente puedes cumplir las seis condiciones. Si alguna falta, te mostramos qué resolver antes de arriesgar dinero.</p>
+          <div class="prerequisite-progress" aria-hidden="true"><span id="readinessProgressBar"></span></div>
+        </div>
+        <div class="readiness" id="readinessChecks">
+          <label><input type="checkbox" data-ready> Tengo fondo de emergencia de 3 a 6 meses</label>
+          <label><input type="checkbox" data-ready> No tengo deuda de consumo cara sin pagar</label>
+          <label><input type="checkbox" data-ready> No usaré dinero prestado para invertir</label>
+          <label><input type="checkbox" data-ready> Acepto caídas temporales del 30% o más</label>
+          <label><input type="checkbox" data-ready> No necesitaré este dinero en cinco años</label>
+          <label><input type="checkbox" data-ready> Entiendo que no hay ganancias garantizadas</label>
+        </div>
+        <div id="readinessAdvice" class="readiness-advice" aria-live="polite"></div>
+        <div class="prerequisite-actions">
+          <div class="readiness-result" id="readinessResult" role="status">0 de 6 condiciones listas</div>
+          <button class="button primary" id="startCourseBtn" type="button" hidden>Comenzar la ruta</button>
+        </div>
+        <p class="prerequisite-note">Tu respuesta se guarda solo en este navegador. RutaETF no recibe ni transmite tus datos financieros.</p>
       </div>
-      <div class="readiness" id="readinessChecks">
-        <label><input type="checkbox" data-ready> Tengo fondo de emergencia de 3 a 6 meses</label>
-        <label><input type="checkbox" data-ready> No tengo deuda de consumo cara sin pagar</label>
-        <label><input type="checkbox" data-ready> No usaré dinero prestado para invertir</label>
-        <label><input type="checkbox" data-ready> Acepto caídas temporales del 30% o más</label>
-        <label><input type="checkbox" data-ready> No necesitaré este dinero en cinco años</label>
-        <label><input type="checkbox" data-ready> Entiendo que no hay ganancias garantizadas</label>
-      </div>
-      <div class="readiness-result" id="readinessResult" role="status">0 de 6 condiciones listas</div>
     </section>
 
     <!-- ══ Niveles ══ -->

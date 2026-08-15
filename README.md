@@ -52,11 +52,12 @@ Cada lección incluye objetivos de aprendizaje, explicación, tablas comparativa
 - **Errores comunes**: los 14 antipatrones más caros, cada uno con su corrección.
 - **Glosario**: más de cien términos clasificados en básico, productos, riesgo, costos, análisis, fiscal y operativa, con búsqueda que ignora tildes.
 - **Exámenes**: uno por nivel (10 preguntas, se aprueba con 6) más una certificación final que sortea 12 preguntas de los cuatro niveles y exige 10 aciertos. Todas las respuestas muestran explicación.
-- **Diagnóstico previo**, **ruta de ejecución de 12 semanas**, **planificador de cartera**, **diario de decisiones** y **exportación/importación del progreso en JSON**.
+- **Prerrequisito financiero obligatorio**: la academia permanece bloqueada hasta confirmar las seis condiciones de base; cada condición pendiente muestra una recomendación práctica.
+- **Ruta de ejecución de 12 semanas**, **planificador de cartera**, **diario de decisiones** y **exportación/importación del progreso en JSON**.
 
 ## Orden recomendado
 
-1. Completar el diagnóstico financiero de seis condiciones.
+1. Completar el prerrequisito financiero de seis condiciones. Hasta entonces, el contenido de la academia permanece bloqueado.
 2. Estudiar el Nivel 1 y aprobar su examen.
 3. Practicar cuatro semanas en cuenta demo antes de cualquier dinero real.
 4. Avanzar por los niveles 2, 3 y 4, aprobando cada examen.

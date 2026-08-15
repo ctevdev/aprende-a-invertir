@@ -277,16 +277,68 @@ $('#levelGrid').addEventListener('click', e => {
 
 /* ─────────────── Diagnóstico ─────────────── */
 const readyBoxes = $$('[data-ready]');
+const READINESS_ADVICE = [
+  {
+    title: 'Construye primero tu fondo de emergencia',
+    text: 'Suma vivienda, alimentación, servicios, transporte, salud y pagos mínimos. Guarda entre 3 y 6 meses de esos gastos —o más si tu ingreso es variable— en una cuenta líquida y separada de la inversión.'
+  },
+  {
+    title: 'Elimina la deuda de consumo cara',
+    text: 'Anota saldo, cuota y tasa efectiva anual de cada deuda. Mantén los pagos mínimos y dirige todo excedente a la tasa más alta. Una tarjeta al 30% E.A. cuesta mucho más de lo que una cartera diversificada puede prometer.'
+  },
+  {
+    title: 'Invierte únicamente capital propio',
+    text: 'No uses avances, libre inversión, margen ni dinero de familiares. La deuda tiene fecha y cuota; el mercado no tiene fecha para recuperarse. Separa el aporte de inversión dentro de tu presupuesto mensual.'
+  },
+  {
+    title: 'Traduce una caída a pesos',
+    text: 'Multiplica el monto que planeas invertir por 30%. Si ver esa pérdida temporal te haría vender o perder el sueño, reduce la porción de acciones y practica primero en una cuenta demo.'
+  },
+  {
+    title: 'Protege las metas de los próximos cinco años',
+    text: 'El dinero para matrícula, vivienda, emergencias o cualquier fecha rígida no debería depender de la bolsa. Llévalo a ahorro o renta fija acorde con el plazo y reserva para invertir solo las metas aplazables.'
+  },
+  {
+    title: 'Acepta la incertidumbre antes de continuar',
+    text: 'Ningún ETF, acción, asesor o algoritmo garantiza ganancias. Desconfía de rentabilidad fija alta, presión para decidir hoy y pagos por referidos. Puedes perder capital incluso haciendo todo con disciplina.'
+  }
+];
+let gateDismissed = false;
+
+function setCourseLocked(locked) {
+  document.body.classList.toggle('prerequisite-pending', locked);
+  $('#prerequisito').hidden = !locked;
+}
+
 function updateReadiness() {
   const total = readyBoxes.filter(b => b.checked).length;
+  const missing = readyBoxes.map((box, index) => ({ box, advice: READINESS_ADVICE[index] }))
+    .filter(item => !item.box.checked);
+  const complete = total === readyBoxes.length;
   const el = $('#readinessResult');
-  el.textContent = total === readyBoxes.length
-    ? 'Base lista: puedes continuar con la etapa demo'
-    : `${total} de ${readyBoxes.length} condiciones listas — resuelve las que faltan antes de invertir dinero real`;
-  el.classList.toggle('ok', total === readyBoxes.length);
+  el.textContent = complete
+    ? 'Base lista. Ya puedes comenzar la ruta educativa.'
+    : `${total} de ${readyBoxes.length} condiciones listas — completa las ${missing.length} pendientes para desbloquear la academia.`;
+  el.classList.toggle('ok', complete);
+  $('#readinessProgressBar').style.width = `${Math.round(total / readyBoxes.length * 100)}%`;
+  $('#readinessAdvice').innerHTML = complete
+    ? '<div class="readiness-success"><strong>✓ Prerrequisito completado</strong><p>La base está protegida. Empieza por Fundamentos y practica en demo antes de usar dinero real.</p></div>'
+    : `<div class="readiness-advice-heading"><strong>Qué debes resolver ahora</strong><span>${missing.length} ${missing.length === 1 ? 'punto pendiente' : 'puntos pendientes'}</span></div>
+      <div class="readiness-advice-list">${missing.map((item, index) => `<article>
+        <span>${index + 1}</span><div><strong>${item.advice.title}</strong><p>${item.advice.text}</p></div>
+      </article>`).join('')}</div>`;
+  $('#startCourseBtn').hidden = !complete;
+  setCourseLocked(!(complete && gateDismissed));
   saveState({ readiness: readyBoxes.map(b => b.checked) });
 }
 readyBoxes.forEach(b => b.addEventListener('change', updateReadiness));
+$('#startCourseBtn').addEventListener('click', () => {
+  if (!readyBoxes.every(box => box.checked)) return;
+  gateDismissed = true;
+  setCourseLocked(false);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  $('.hero h1').focus?.();
+});
 
 /* ─────────────── Ruta de 12 semanas ─────────────── */
 const stepBoxes = $$('[data-step]');
@@ -885,6 +937,7 @@ $('#resetBtn').addEventListener('click', () => {
 /* ─────────────── Arranque ─────────────── */
 const saved = loadState();
 (saved.readiness || []).forEach((v, i) => { if (readyBoxes[i]) readyBoxes[i].checked = v; });
+gateDismissed = readyBoxes.every(box => box.checked);
 stepBoxes.forEach(b => { b.checked = Boolean(saved.steps?.[b.dataset.step]); });
 if (saved.plan) {
   $('#goal').value = saved.plan.goal ?? $('#goal').value;
