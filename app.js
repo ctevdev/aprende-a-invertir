@@ -1011,7 +1011,6 @@ function exportProgress() {
 
 $('#exportBtn').addEventListener('click', exportProgress);
 $('#quickExportBtn').addEventListener('click', exportProgress);
-$('#quickImportBtn').addEventListener('click', () => $('#importInput').click());
 
 $('#importInput').addEventListener('change', event => {
   const file = event.target.files[0];

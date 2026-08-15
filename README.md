@@ -4,7 +4,7 @@ Academia web educativa, en español y orientada a una persona residente en Colom
 
 Sin instalación, sin cuenta, sin API y sin conexión a ningún broker. Todo el progreso se guarda en `localStorage` del navegador.
 
-Los controles flotantes **Guardar avance** y **Restaurar avance** permiten descargar un respaldo JSON y continuar en otro navegador o dispositivo. La transferencia del archivo es manual porque el sitio no recopila correos ni almacena datos personales en un servidor.
+El control flotante **Guardar avance** permite descargar un respaldo JSON. Para continuar en otro navegador o dispositivo, la opción **Restaurar avance desde un archivo** permanece en la sección **Tus datos**. La transferencia del archivo es manual porque el sitio no recopila correos ni almacena datos personales en un servidor.
 
 ## Abrir el proyecto
 
