@@ -1,12 +1,19 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const {
+  buildProgression,
   calculateRebalance,
   compound,
   isBackupCandidate,
   normalizeState,
   realRate
 } = require('../core.js');
+
+const curriculum = [
+  { id: 'n1', lessons: [{ id: 'l1' }, { id: 'l2' }] },
+  { id: 'n2', lessons: [{ id: 'l3' }] },
+  { id: 'n3', lessons: [{ id: 'l4' }] }
+];
 
 const config = {
   levelIds: ['n1', 'n2'],
@@ -50,6 +57,39 @@ test('conserva únicamente las condiciones de preparación esperadas', () => {
   }, { ...config, readinessCount: 4 });
 
   assert.deepEqual(state.readiness, [true, false, true, false]);
+});
+
+test('desbloquea cada nivel únicamente al completar y aprobar el anterior', () => {
+  const initial = buildProgression(curriculum, {});
+  assert.deepEqual(initial.levels.map(level => level.unlocked), [true, false, false]);
+  assert.equal(initial.levels[0].examUnlocked, false);
+
+  const lessonsSeen = buildProgression(curriculum, {
+    lessons: { l1: true, l2: true }
+  });
+  assert.equal(lessonsSeen.levels[0].examUnlocked, true);
+  assert.equal(lessonsSeen.levels[1].unlocked, false);
+
+  const firstPassed = buildProgression(curriculum, {
+    lessons: { l1: true, l2: true },
+    exams: { n1: { passed: true } }
+  });
+  assert.deepEqual(firstPassed.levels.map(level => level.unlocked), [true, true, false]);
+});
+
+test('no permite romper la cadena con progreso inconsistente y protege la certificación', () => {
+  const inconsistent = buildProgression(curriculum, {
+    lessons: { l3: true, l4: true },
+    exams: { n2: { passed: true }, n3: { passed: true } }
+  });
+  assert.deepEqual(inconsistent.levels.map(level => level.unlocked), [true, false, false]);
+  assert.equal(inconsistent.certificationUnlocked, false);
+
+  const complete = buildProgression(curriculum, {
+    lessons: { l1: true, l2: true, l3: true, l4: true },
+    exams: { n1: { passed: true }, n2: { passed: true }, n3: { passed: true } }
+  });
+  assert.equal(complete.certificationUnlocked, true);
 });
 
 test('acepta respaldos actuales y heredados, pero rechaza JSON arbitrario', () => {
