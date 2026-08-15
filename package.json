@@ -1,0 +1,13 @@
+{
+  "name": "ruta-etf",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Academia web educativa de inversión en ETFs y acciones para Colombia.",
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check core.js && node --check app.js && node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

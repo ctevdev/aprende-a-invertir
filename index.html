@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Academia educativa de inversión en ETFs y acciones desde Colombia: 4 niveles, 28 lecciones, laboratorio de calculadoras, glosario y exámenes.">
+  <title>Ruta ETF — De cero a experto en inversión</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  <header class="hero">
+    <nav class="nav wrap" aria-label="Navegación principal">
+      <a class="brand" href="#inicio">Ruta<span>ETF</span></a>
+      <div class="nav-links">
+        <a href="#niveles">Niveles</a><a href="#tutorial">Academia</a><a href="#pildoras">Píldoras</a><a href="#laboratorio">Laboratorio</a><a href="#glosario">Glosario</a><a href="#evaluacion">Exámenes</a><a href="#plan">Mi plan</a><a href="#diario">Diario</a>
+      </div>
+    </nav>
+    <div id="inicio" class="hero-grid wrap">
+      <div>
+        <p class="eyebrow">Academia educativa · Colombia</p>
+        <h1>De cero a experto en inversión.</h1>
+        <p class="lead">Cuatro niveles, veintiocho lecciones y un laboratorio de calculadoras para pasar de no entender el vocabulario a operar con un sistema escrito. Sin promesas de rentabilidad y sin atajos.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#niveles">Ver la ruta completa</a>
+          <a class="button ghost" href="#laboratorio">Abrir el laboratorio</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>4</strong><span>niveles progresivos</span></div>
+          <div><strong>28</strong><span>lecciones con tareas</span></div>
+          <div><strong>6</strong><span>calculadoras</span></div>
+          <div><strong>100+</strong><span>términos en glosario</span></div>
+        </div>
+        <p class="microcopy">Material educativo. No es asesoría financiera, tributaria ni legal. Toda inversión puede perder valor, incluido el capital inicial.</p>
+      </div>
+      <aside class="safety-card">
+        <p class="card-kicker">Regla cero</p>
+        <h2>Primero protege tu base</h2>
+        <ul class="check-list">
+          <li>Fondo de emergencia de 3–6 meses</li>
+          <li>Sin deuda de interés alto</li>
+          <li>Horizonte mínimo de 5 años</li>
+          <li>Solo dinero que no necesitarás pronto</li>
+        </ul>
+        <div class="rule">Sin CFD · Sin apalancamiento · Sin ventas en corto</div>
+      </aside>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <!-- ══ Diagnóstico ══ -->
+    <section class="section wrap" aria-labelledby="diagnostico-title">
+      <div class="section-heading">
+        <p class="eyebrow">Antes de abrir el broker</p>
+        <h2 id="diagnostico-title">¿Estás listo para invertir?</h2>
+        <p>Marca cada condición con honestidad. Si falta una, esa es tu prioridad real; el resto de la ruta puede esperar.</p>
+      </div>
+      <div class="readiness" id="readinessChecks">
+        <label><input type="checkbox" data-ready> Tengo fondo de emergencia de 3 a 6 meses</label>
+        <label><input type="checkbox" data-ready> No tengo deuda de consumo cara sin pagar</label>
+        <label><input type="checkbox" data-ready> No usaré dinero prestado para invertir</label>
+        <label><input type="checkbox" data-ready> Acepto caídas temporales del 30% o más</label>
+        <label><input type="checkbox" data-ready> No necesitaré este dinero en cinco años</label>
+        <label><input type="checkbox" data-ready> Entiendo que no hay ganancias garantizadas</label>
+      </div>
+      <div class="readiness-result" id="readinessResult" role="status">0 de 6 condiciones listas</div>
+    </section>
+
+    <!-- ══ Niveles ══ -->
+    <section id="niveles" class="section section-tint">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">Mapa de la ruta</p>
+          <h2>Cuatro niveles, un solo sistema</h2>
+          <p>Cada nivel se apoya en el anterior. Puedes avanzar a tu ritmo: el progreso se guarda en este navegador.</p>
+        </div>
+        <div class="level-grid" id="levelGrid"></div>
+        <div class="global-progress" aria-live="polite">
+          <div><strong id="globalProgressText">0 de 28 lecciones estudiadas</strong><p>Avance total de la academia</p></div>
+          <div class="progress-track"><span id="globalProgressBar"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ Academia ══ -->
+    <section id="tutorial" class="section tutorial-section">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">Academia</p>
+          <h2>Las lecciones, en orden</h2>
+          <p>Cada lección trae objetivos, explicación, ejemplos, advertencias, píldoras y una tarea concreta. Marca como estudiada solo cuando hayas hecho la tarea.</p>
+        </div>
+        <div class="level-tabs" id="levelTabs" role="tablist" aria-label="Niveles"></div>
+        <div id="levelContent" role="tabpanel" tabindex="0">
+          <div class="level-banner" id="levelBanner"></div>
+          <div class="tutorial-layout">
+            <aside class="lesson-index" aria-label="Índice del nivel">
+              <p class="card-kicker">Contenido del nivel</p>
+              <div id="lessonIndex"></div>
+            </aside>
+            <div class="lessons" id="lessons"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ Píldoras ══ -->
+    <section id="pildoras" class="section">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">Aprendizaje en dosis cortas</p>
+          <h2>Píldoras del inversionista</h2>
+          <p>Ideas de un párrafo para recordar en el momento de decidir. Filtra por tema o deja que aparezca una al azar.</p>
+        </div>
+        <div class="pill-featured" id="pillFeatured" aria-live="polite"></div>
+        <div class="chip-row" id="pillChips"></div>
+        <div class="pill-grid" id="pillGrid"></div>
+      </div>
+    </section>
+
+    <!-- ══ Errores comunes ══ -->
+    <section id="errores" class="section section-tint">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">Antipatrones</p>
+          <h2>Los catorce errores que más cuestan</h2>
+          <p>Evitar estos errores importa más que acertar con el producto perfecto. Cada uno trae su corrección.</p>
+        </div>
+        <div class="error-grid" id="errorGrid"></div>
+      </div>
+    </section>
+
+    <!-- ══ Laboratorio ══ -->
+    <section id="laboratorio" class="section section-dark">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">Escenarios, no promesas</p>
+          <h2>Laboratorio de cálculo</h2>
+          <p>Seis herramientas para poner números a las decisiones. Ninguna proyección es un pronóstico: son aritmética bajo supuestos que tú eliges.</p>
+        </div>
+        <div class="lab-tabs" id="labTabs" role="tablist" aria-label="Calculadoras"></div>
+
+        <!-- A · Interés compuesto real -->
+        <div class="lab-panel" id="lab-compuesto" role="tabpanel" tabindex="0" data-lab="compuesto">
+          <div class="lab-grid">
+            <div class="lab-inputs">
+              <h3>Crecimiento con inflación y costos</h3>
+              <label>Aporte inicial (COP)<input id="cInitial" type="number" min="0" step="100000" value="2000000"></label>
+              <label>Aporte mensual (COP)<input id="cMonthly" type="number" min="0" step="50000" value="400000"></label>
+              <label>Años: <strong id="cYearsLbl">20 años</strong><input id="cYears" type="range" min="1" max="40" value="20"></label>
+              <label>Retorno nominal anual: <strong id="cRateLbl">7%</strong><input id="cRate" type="range" min="-4" max="15" step="0.5" value="7"></label>
+              <label>Inflación anual: <strong id="cInflLbl">5%</strong><input id="cInfl" type="range" min="0" max="14" step="0.5" value="5"></label>
+              <label>Costos totales anuales: <strong id="cCostLbl">0,5%</strong><input id="cCost" type="range" min="0" max="3" step="0.05" value="0.5"></label>
+            </div>
+            <div class="lab-output" id="cOut" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <!-- B · Impacto de costos -->
+        <div class="lab-panel" id="lab-costos" role="tabpanel" tabindex="0" data-lab="costos" hidden>
+          <div class="lab-grid">
+            <div class="lab-inputs">
+              <h3>Cuánto se llevan las comisiones</h3>
+              <label>Aporte mensual (COP)<input id="fMonthly" type="number" min="0" step="50000" value="400000"></label>
+              <label>Años: <strong id="fYearsLbl">25 años</strong><input id="fYears" type="range" min="5" max="40" value="25"></label>
+              <label>Retorno bruto anual: <strong id="fRateLbl">7%</strong><input id="fRate" type="range" min="1" max="12" step="0.5" value="7"></label>
+              <label>Opción A · costo anual: <strong id="fLowLbl">0,20%</strong><input id="fLow" type="range" min="0" max="3" step="0.05" value="0.2"></label>
+              <label>Opción B · costo anual: <strong id="fHighLbl">1,70%</strong><input id="fHigh" type="range" min="0" max="3" step="0.05" value="1.7"></label>
+            </div>
+            <div class="lab-output" id="fOut" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <!-- C · Costo de operación internacional -->
+        <div class="lab-panel" id="lab-operacion" role="tabpanel" tabindex="0" data-lab="operacion" hidden>
+          <div class="lab-grid">
+            <div class="lab-inputs">
+              <h3>Costo real de una compra internacional</h3>
+              <label>Monto a invertir (COP)<input id="oAmount" type="number" min="0" step="50000" value="400000"></label>
+              <label>Margen de conversión COP→USD (%)<input id="oFx" type="number" min="0" step="0.05" value="0.6"></label>
+              <label>Comisión del broker (%)<input id="oCommPct" type="number" min="0" step="0.01" value="0"></label>
+              <label>Comisión fija por operación (COP)<input id="oCommFix" type="number" min="0" step="1000" value="4000"></label>
+              <label>Spread del activo (%)<input id="oSpread" type="number" min="0" step="0.01" value="0.05"></label>
+              <label>TER anual del ETF (%)<input id="oTer" type="number" min="0" step="0.01" value="0.2"></label>
+              <label>Compras al año<input id="oFreq" type="number" min="1" max="52" step="1" value="12"></label>
+            </div>
+            <div class="lab-output" id="oOut" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <!-- D · Drawdown -->
+        <div class="lab-panel" id="lab-drawdown" role="tabpanel" tabindex="0" data-lab="drawdown" hidden>
+          <div class="lab-grid">
+            <div class="lab-inputs">
+              <h3>Prueba de estrés: caídas y recuperación</h3>
+              <label>Valor de la cartera (COP)<input id="dValue" type="number" min="0" step="500000" value="60000000"></label>
+              <label>Caída simulada: <strong id="dDropLbl">35%</strong><input id="dDrop" type="range" min="5" max="80" step="5" value="35"></label>
+              <label>Retorno anual esperado en la recuperación: <strong id="dRateLbl">7%</strong><input id="dRate" type="range" min="1" max="12" step="0.5" value="7"></label>
+              <label>Aporte mensual durante la caída (COP)<input id="dMonthly" type="number" min="0" step="50000" value="400000"></label>
+            </div>
+            <div class="lab-output" id="dOut" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <!-- E · Independencia financiera -->
+        <div class="lab-panel" id="lab-retiro" role="tabpanel" tabindex="0" data-lab="retiro" hidden>
+          <div class="lab-grid">
+            <div class="lab-inputs">
+              <h3>Capital objetivo y años que faltan</h3>
+              <label>Gasto mensual deseado (COP de hoy)<input id="rSpend" type="number" min="0" step="100000" value="5000000"></label>
+              <label>Tasa de retiro anual: <strong id="rRateLbl">3,5%</strong><input id="rRate" type="range" min="2" max="6" step="0.25" value="3.5"></label>
+              <label>Capital actual (COP)<input id="rCurrent" type="number" min="0" step="1000000" value="30000000"></label>
+              <label>Aporte mensual (COP)<input id="rMonthly" type="number" min="0" step="100000" value="1500000"></label>
+              <label>Retorno real anual esperado: <strong id="rRealLbl">4%</strong><input id="rReal" type="range" min="0" max="8" step="0.5" value="4"></label>
+            </div>
+            <div class="lab-output" id="rOut" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <!-- F · Rebalanceo -->
+        <div class="lab-panel" id="lab-rebalanceo" role="tabpanel" tabindex="0" data-lab="rebalanceo" hidden>
+          <div class="lab-grid">
+            <div class="lab-inputs">
+              <h3>Rebalanceo por bandas</h3>
+              <label>Objetivo en renta variable: <strong id="bTargetLbl">70%</strong><input id="bTarget" type="range" min="0" max="100" step="5" value="70"></label>
+              <label>Banda tolerada (puntos): <strong id="bBandLbl">5 pp</strong><input id="bBand" type="range" min="1" max="15" step="1" value="5"></label>
+              <label>Valor actual en renta variable (COP)<input id="bEquity" type="number" min="0" step="500000" value="45000000"></label>
+              <label>Valor actual en renta fija (COP)<input id="bBonds" type="number" min="0" step="500000" value="15000000"></label>
+              <label>Aporte mensual disponible (COP)<input id="bMonthly" type="number" min="0" step="100000" value="1000000"></label>
+            </div>
+            <div class="lab-output" id="bOut" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <p class="microcopy lab-note">Ninguna calculadora incluye tu situación tributaria particular ni garantiza resultados. El mercado no entrega retornos constantes: los promedios ocultan años excelentes y años pésimos.</p>
+      </div>
+    </section>
+
+    <!-- ══ Glosario ══ -->
+    <section id="glosario" class="section">
+      <div class="wrap">
+        <div class="section-heading"><p class="eyebrow">Consulta rápida</p><h2>Glosario del inversionista</h2><p>Más de cien términos organizados por tema. Busca una palabra o explora una categoría.</p></div>
+        <label class="glossary-search">Buscar término<input id="glossarySearch" type="search" placeholder="Ej.: duración, ROIC, ganancia ocasional, drawdown…"></label>
+        <div class="chip-row" id="glossaryChips"></div>
+        <div id="glossaryGrid" class="glossary-grid"></div>
+        <p id="glossaryEmpty" class="empty" hidden>No encontramos ese término.</p>
+      </div>
+    </section>
+
+    <!-- ══ Exámenes ══ -->
+    <section id="evaluacion" class="section section-tint">
+      <div class="wrap">
+        <div class="quiz-intro">
+          <div><p class="eyebrow">Comprobación</p><h2>Exámenes por nivel y certificación</h2><p>Cada examen tiene diez preguntas y se aprueba con seis. La certificación final toma doce preguntas de los cuatro niveles y exige diez aciertos.</p></div>
+          <div id="quizBadge" class="quiz-badge">Pendiente</div>
+        </div>
+        <div class="exam-tabs" id="examTabs" role="tablist" aria-label="Exámenes"></div>
+        <div id="examPanel" role="tabpanel" tabindex="0">
+          <form id="quizForm" class="quiz-form"></form>
+          <div class="quiz-actions">
+            <button class="button primary" id="quizSubmit" type="button">Calificar examen</button>
+            <button class="button ghost dark" id="quizReset" type="button">Reiniciar</button>
+          </div>
+          <div id="quizResult" class="quiz-result" role="status"></div>
+          <div id="examScores" class="exam-scores"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ Ruta de 12 semanas ══ -->
+    <section id="ruta" class="section">
+      <div class="wrap">
+        <div class="section-heading row-heading">
+          <div><p class="eyebrow">12 semanas</p><h2>Plan de ejecución semana a semana</h2></div>
+          <p id="progressText" class="progress-label">0% completado</p>
+        </div>
+        <div class="progress-track big" aria-hidden="true"><span id="progressBar"></span></div>
+        <div class="steps" id="learningSteps">
+          <article class="step"><div class="step-number">01</div><div><p class="week">Semana 1</p><h3>Ordena tus finanzas</h3><p>Calcula gastos, completa el fondo de emergencia y define un aporte mensual sostenible.</p><label class="complete"><input type="checkbox" data-step="finanzas"> Listo</label></div></article>
+          <article class="step"><div class="step-number">02</div><div><p class="week">Semana 2</p><h3>Domina el vocabulario</h3><p>Nivel 1 completo: acción, ETF, índice, volatilidad, TER, spread y riesgo cambiario.</p><label class="complete"><input type="checkbox" data-step="conceptos"> Listo</label></div></article>
+          <article class="step"><div class="step-number">03</div><div><p class="week">Semana 3</p><h3>Compara brokers</h3><p>Regulación, custodia, activo real frente a CFD, depósito y retiro, conversión COP–USD, extractos.</p><label class="complete"><input type="checkbox" data-step="broker"> Listo</label></div></article>
+          <article class="step"><div class="step-number">04</div><div><p class="week">Semana 4</p><h3>Practica en demo</h3><p>Cartera virtual, compra de un ETF amplio sin apalancamiento y registro en el Diario.</p><label class="complete"><input type="checkbox" data-step="demo"> Listo</label></div></article>
+          <article class="step"><div class="step-number">05</div><div><p class="week">Semana 5</p><h3>Define tu asignación</h3><p>Nivel 2: reparto entre acciones y renta fija, con las bandas de rebalanceo por escrito.</p><label class="complete"><input type="checkbox" data-step="asignacion"> Listo</label></div></article>
+          <article class="step"><div class="step-number">06</div><div><p class="week">Semana 6</p><h3>Elige la estructura</h3><p>Domicilio del fondo, acumulación o distribución, moneda y costos de conversión.</p><label class="complete"><input type="checkbox" data-step="estructura"> Listo</label></div></article>
+          <article class="step"><div class="step-number">07</div><div><p class="week">Semana 7</p><h3>Escribe tu IPS</h3><p>Objetivos, horizonte, tolerancia en pesos, asignación, reglas de aporte, rebalanceo y venta.</p><label class="complete"><input type="checkbox" data-step="ips"> Listo</label></div></article>
+          <article class="step"><div class="step-number">08</div><div><p class="week">Semana 8</p><h3>Haz la prueba completa</h3><p>Depósito, compra y retiro pequeño reales. Confirma costos de ida y vuelta antes de escalar.</p><label class="complete"><input type="checkbox" data-step="prueba"> Listo</label></div></article>
+          <article class="step"><div class="step-number">09</div><div><p class="week">Semana 9</p><h3>Primera compra real</h3><p>Solo si completaste lo anterior: monto pequeño, sin apalancamiento y con activo real verificado.</p><label class="complete"><input type="checkbox" data-step="compra"> Listo</label></div></article>
+          <article class="step"><div class="step-number">10</div><div><p class="week">Semana 10</p><h3>Automatiza</h3><p>Transferencia programada, compras agrupadas y notificaciones de precio desactivadas.</p><label class="complete"><input type="checkbox" data-step="automatiza"> Listo</label></div></article>
+          <article class="step"><div class="step-number">11</div><div><p class="week">Semana 11</p><h3>Arma la carpeta fiscal</h3><p>Extractos, certificados de retención, W-8BEN y calendario de revisión mensual.</p><label class="complete"><input type="checkbox" data-step="fiscal"> Listo</label></div></article>
+          <article class="step"><div class="step-number">12</div><div><p class="week">Semana 12 y después</p><h3>Instala el sistema</h3><p>Rutinas mensuales, trimestrales y anuales, carpeta de continuidad y revisión de la IPS.</p><label class="complete"><input type="checkbox" data-step="sistema"> Listo</label></div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ Mi plan ══ -->
+    <section id="plan" class="section section-tint">
+      <div class="wrap">
+        <div class="section-heading"><p class="eyebrow">Decisiones simples</p><h2>Construye tu plan personal</h2><p>El resultado es una plantilla educativa que puedes discutir con un profesional, no una recomendación individual.</p></div>
+        <div class="planner-grid">
+          <form id="planForm" class="panel form-panel">
+            <label>Objetivo
+              <select id="goal"><option>Crecer patrimonio a largo plazo</option><option>Vivienda en más de 5 años</option><option>Educación de un hijo</option><option>Independencia financiera</option><option>Retiro</option></select>
+            </label>
+            <label>Horizonte
+              <select id="horizon"><option value="5">5 años</option><option value="10" selected>10 años</option><option value="15">15 años</option><option value="20">20 años</option><option value="30">30 años</option></select>
+            </label>
+            <label>Aporte inicial (COP)<input id="initial" type="number" min="0" step="50000" value="1000000"></label>
+            <label>Aporte mensual (COP)<input id="monthly" type="number" min="0" step="50000" value="400000"></label>
+            <label>Perfil orientativo
+              <select id="profile"><option value="cauteloso">Cauteloso</option><option value="moderado" selected>Moderado</option><option value="crecimiento">Crecimiento</option><option value="agresivo">Agresivo</option></select>
+            </label>
+            <button type="submit" class="button primary">Actualizar mi plan</button>
+          </form>
+          <div class="panel plan-output" id="planOutput" aria-live="polite"></div>
+        </div>
+        <div class="allocation-note">
+          <h3>Cómo leer las categorías</h3>
+          <div class="category-grid">
+            <div><span class="dot global"></span><strong>ETF global de acciones</strong><p>Miles de empresas de decenas de países en un solo fondo. Es el motor de la cartera.</p></div>
+            <div><span class="dot bonds"></span><strong>ETF de bonos</strong><p>Amortiguador. Reduce volatilidad, pero también puede caer si suben las tasas.</p></div>
+            <div><span class="dot satellite"></span><strong>Satélite</strong><p>Opcional y acotado. Acciones individuales o temáticas, con límite escrito de antemano.</p></div>
+          </div>
+          <p class="microcopy">Verifica siempre domicilio, retención de dividendos, liquidez, moneda, TER y disponibilidad en tu broker antes de decidir. Esta app no recomienda productos concretos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ Brokers ══ -->
+    <section id="brokers" class="section wrap" aria-labelledby="broker-title">
+      <div class="section-heading"><p class="eyebrow">Diligencia debida</p><h2 id="broker-title">Cómo elegir dónde abrir la cuenta</h2><p>La comparación importa menos que las preguntas. Estas se aplican a cualquier intermediario, local o extranjero.</p></div>
+      <div class="broker-grid">
+        <article class="broker-card"><h3>eToro</h3><p>Interfaz sencilla y cartera virtual para practicar. Antes de confirmar, verifica que la operación sea compra sin apalancamiento y que no se ejecute como CFD. Revisa conversión, retiro y spread.</p><a href="https://www.etoro.com/es/trading/fees/" target="_blank" rel="noreferrer">Tarifas oficiales ↗</a></article>
+        <article class="broker-card"><h3>Interactive Brokers</h3><p>Colombia figura en su lista oficial de países disponibles, consultada en agosto de 2026. El acceso a mercados y productos depende del tipo y clasificación de la cuenta. Estructura más técnica y comisión por operación.</p><a href="https://www.interactivebrokers.com/en/accounts/open-account-country-list.php" target="_blank" rel="noreferrer">Países disponibles ↗</a></article>
+        <article class="broker-card"><h3>Comisionistas locales</h3><p>Las entidades autorizadas pueden estar vigiladas por la Superintendencia Financiera de Colombia y ofrecer protección al consumidor financiero local. Los soportes y retenciones dependen del producto y la operación.</p><a href="https://www.superfinanciera.gov.co/" target="_blank" rel="noreferrer">Superintendencia Financiera ↗</a></article>
+      </div>
+      <div class="dd-grid">
+        <article class="dd-card"><h4>Regulación y custodia</h4><ul><li>¿Qué entidad lo regula y con qué licencia?</li><li>¿Quién custodia los valores y están segregados de la caja del broker?</li><li>¿Existe algún esquema de protección al inversionista y hasta qué monto?</li><li>¿Cómo se resolvería una disputa y bajo qué jurisdicción?</li></ul></article>
+        <article class="dd-card"><h4>Producto y ejecución</h4><ul><li>¿Compro el activo real o un CFD?</li><li>¿Tengo acceso a fondos UCITS o solo a productos estadounidenses?</li><li>¿Admite fracciones y órdenes limitadas?</li><li>¿En qué bolsas puedo operar y en qué horarios?</li></ul></article>
+        <article class="dd-card"><h4>Costos</h4><ul><li>¿Cuánto cuesta depositar, convertir divisa y retirar?</li><li>¿Hay comisión mínima por operación o cargo por inactividad?</li><li>¿Qué margen aplica sobre la tasa de cambio del día?</li><li>¿Cobra custodia o mantenimiento anual?</li></ul></article>
+        <article class="dd-card"><h4>Impuestos y seguridad</h4><ul><li>¿Puedo descargar extractos y certificados de retención?</li><li>¿Gestiona el W-8BEN y me avisa de su vencimiento?</li><li>¿Ofrece autenticación de dos factores?</li><li>¿Qué pasa con mi cuenta si fallezco o cambio de residencia?</li></ul></article>
+      </div>
+      <div class="legal">Un broker constituido y regulado únicamente en el exterior no está vigilado por la Superintendencia Financiera de Colombia y la protección al consumidor financiero colombiano puede no aplicarle. Verifica la entidad jurídica contratante, su regulación de origen y el mecanismo de reclamación antes de transferir dinero.</div>
+    </section>
+
+    <!-- ══ Diario ══ -->
+    <section id="diario" class="section section-tint">
+      <div class="wrap journal-grid">
+        <div>
+          <p class="eyebrow">Disciplina</p><h2>Diario de decisiones</h2>
+          <p>Registrar el “por qué” antes de conocer el resultado es la única forma de evaluar tu proceso en lugar de tu suerte. Los datos quedan solo en este navegador.</p>
+          <div class="journal-hint"><strong>Escribe siempre tres cosas:</strong> la regla de tu plan que respalda la decisión, qué tendría que ocurrir para que reconozcas que te equivocaste, y cómo te sientes hoy.</div>
+        </div>
+        <form id="journalForm" class="panel journal-form">
+          <label>Activo o ETF<input id="asset" required maxlength="30" placeholder="Ej.: ETF global de acciones"></label>
+          <label>Decisión<select id="decision"><option>Estudiar</option><option>Simular compra</option><option>Comprar</option><option>Aportar</option><option>No comprar</option><option>Rebalancear</option><option>Vender</option><option>Esperar</option></select></label>
+          <label>Razón y regla que la respalda<textarea id="reason" required maxlength="400" placeholder="¿Qué regla de tu IPS respalda esta decisión? ¿Qué te haría reconocer un error?"></textarea></label>
+          <button class="button primary" type="submit">Guardar entrada</button>
+        </form>
+      </div>
+      <div class="wrap journal-list" id="journalList"></div>
+    </section>
+
+    <!-- ══ Progreso y datos ══ -->
+    <section class="section wrap">
+      <div class="section-heading"><p class="eyebrow">Tus datos</p><h2>Progreso, respaldo y reinicio</h2><p>Todo se guarda en el almacenamiento local de este navegador. Si borras los datos del sitio o cambias de equipo, se pierde.</p></div>
+      <div class="data-panel">
+        <div id="dataSummary" class="data-summary"></div>
+        <div class="data-actions">
+          <button class="button ghost solid" id="exportBtn" type="button">Exportar progreso (JSON)</button>
+          <label class="button ghost solid file-btn">Importar respaldo<input id="importInput" type="file" accept="application/json" hidden></label>
+          <button class="button danger" id="resetBtn" type="button">Borrar todo mi progreso</button>
+        </div>
+        <p class="microcopy" id="dataMsg" role="status"></p>
+      </div>
+    </section>
+
+    <!-- ══ Recursos y fuentes ══ -->
+    <section class="section wrap sources">
+      <div class="section-heading"><p class="eyebrow">Lectura responsable</p><h2>Fuentes, reguladores y siguiente paso</h2></div>
+      <div class="source-list">
+        <a href="https://www.superfinanciera.gov.co/" target="_blank" rel="noreferrer"><strong>Superintendencia Financiera de Colombia</strong><span>Entidades vigiladas y alertas de fraude</span></a>
+        <a href="https://www.dian.gov.co/" target="_blank" rel="noreferrer"><strong>DIAN</strong><span>Obligaciones tributarias y valor de la UVT</span></a>
+        <a href="https://www.dian.gov.co/impuestos/sociedades/Paginas/declaracion_activos_exterior.aspx" target="_blank" rel="noreferrer"><strong>DIAN · activos en el exterior</strong><span>Umbral y formulario vigentes</span></a>
+        <a href="https://www.investor.gov/introduction-investing/investing-basics/glossary/dollar-cost-averaging" target="_blank" rel="noreferrer"><strong>Investor.gov (SEC)</strong><span>Aportes periódicos y educación al inversionista</span></a>
+        <a href="https://www.banrep.gov.co/" target="_blank" rel="noreferrer"><strong>Banco de la República</strong><span>Inflación, tasas y tipo de cambio</span></a>
+        <a href="https://www.interactivebrokers.com/en/accounts/open-account-country-list.php" target="_blank" rel="noreferrer"><strong>Interactive Brokers</strong><span>Países disponibles</span></a>
+        <a href="https://www.etoro.com/es/trading/fees/" target="_blank" rel="noreferrer"><strong>eToro</strong><span>Tarifas y condiciones</span></a>
+        <a href="https://www.irs.gov/individuals/international-taxpayers/some-nonresidents-with-us-assets-must-file-estate-tax-returns" target="_blank" rel="noreferrer"><strong>IRS · sucesiones de no residentes</strong><span>Activos estadounidenses y formulario 706-NA</span></a>
+      </div>
+      <div class="next-steps">
+        <h3>Cuando termines la ruta</h3>
+        <ol>
+          <li>Ten tu IPS firmada y guardada junto a tus documentos importantes.</li>
+          <li>Consulta a un contador público sobre tu situación tributaria concreta antes de la primera declaración con activos en el exterior.</li>
+          <li>Programa la revisión anual en el calendario y no la adelantes por noticias.</li>
+          <li>Vuelve a este material una vez al año: lo que entiendes cambia con la experiencia.</li>
+        </ol>
+      </div>
+      <p class="legal">Material educativo general elaborado con fines formativos. No constituye asesoría financiera, tributaria ni legal, ni recomendación de compra o venta de ningún instrumento. Las cifras tributarias, tarifas y umbrales cambian con la normativa vigente: verifícalas con la DIAN, la Superintendencia Financiera de Colombia, tu broker y un profesional habilitado. Puedes perder parte o la totalidad del capital invertido.</p>
+    </section>
+  </main>
+
+  <footer><div class="wrap"><span>RutaETF · Aprende, simula, decide.</span><span>Hecho para invertir con cabeza fría.</span></div></footer>
+
+  <script src="data/nivel-1.js"></script>
+  <script src="data/nivel-2.js"></script>
+  <script src="data/nivel-3.js"></script>
+  <script src="data/nivel-4.js"></script>
+  <script src="data/glosario.js"></script>
+  <script src="data/pildoras.js"></script>
+  <script src="data/examenes.js"></script>
+  <script src="core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
