@@ -45,6 +45,8 @@ Las pruebas cubren las fórmulas compartidas, la limpieza del estado, la validac
 
 Cada lección incluye objetivos de aprendizaje, explicación, tablas comparativas, fórmulas, ejemplos en pesos, advertencias, errores frecuentes, una idea clave, píldoras y una tarea concreta.
 
+Los niveles siguen una progresión obligatoria. El examen de un nivel solo se habilita al marcar todas sus lecciones como estudiadas, y el siguiente nivel se desbloquea únicamente después de aprobar ese examen. La certificación final requiere haber completado los cuatro niveles.
+
 ### Herramientas
 
 - **Laboratorio** con seis calculadoras: crecimiento compuesto real (con inflación y costos), impacto de las comisiones a largo plazo, costo real de una compra internacional, prueba de estrés por drawdown, capital objetivo para independencia financiera y rebalanceo por bandas.

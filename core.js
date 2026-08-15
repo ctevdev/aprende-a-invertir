@@ -112,6 +112,39 @@
     return legacyKeys.some(key => Object.hasOwn(value, key));
   }
 
+  function buildProgression(curriculum, state = {}) {
+    const lessons = isPlainObject(state.lessons) ? state.lessons : {};
+    const exams = isPlainObject(state.exams) ? state.exams : {};
+    let previousComplete = true;
+
+    const levels = (Array.isArray(curriculum) ? curriculum : []).map((level, index) => {
+      const levelLessons = Array.isArray(level.lessons) ? level.lessons : [];
+      const studied = levelLessons.filter(lesson => lessons[lesson.id] === true).length;
+      const total = levelLessons.length;
+      const allLessonsStudied = total > 0 && studied === total;
+      const unlocked = index === 0 || previousComplete;
+      const examPassed = exams[level.id]?.passed === true;
+      const complete = unlocked && allLessonsStudied && examPassed;
+      const result = {
+        id: level.id,
+        unlocked,
+        studied,
+        total,
+        allLessonsStudied,
+        examUnlocked: unlocked && allLessonsStudied,
+        examPassed,
+        complete
+      };
+      previousComplete = complete;
+      return result;
+    });
+
+    return {
+      levels,
+      certificationUnlocked: levels.length > 0 && levels.every(level => level.complete)
+    };
+  }
+
   function calculateRebalance({ target, band, equity, bonds, monthly }) {
     const safeTarget = finiteNumber(target, 0, 0, 100);
     const safeBand = finiteNumber(band, 0, 0, 100);
@@ -157,6 +190,7 @@
   return {
     APP_ID,
     SCHEMA_VERSION,
+    buildProgression,
     calculateRebalance,
     compound,
     isBackupCandidate,

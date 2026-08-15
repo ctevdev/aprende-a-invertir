@@ -7,6 +7,7 @@ const pct = (v, d = 2) => `${v.toFixed(d).replace('.', ',')}%`;
 const $ = sel => document.querySelector(sel);
 const $$ = sel => [...document.querySelectorAll(sel)];
 const {
+  buildProgression,
   calculateRebalance,
   compound,
   isBackupCandidate,
@@ -155,6 +156,23 @@ function renderLesson(lesson) {
 /* ─────────────── Niveles y academia ─────────────── */
 let activeLevel = loadState().activeLevel || 'n1';
 
+function progressionState() {
+  return buildProgression(window.CURRICULUM, loadState());
+}
+
+function levelAccess(levelId) {
+  return progressionState().levels.find(level => level.id === levelId);
+}
+
+function ensureAccessibleActiveLevel(persist = false) {
+  const progression = progressionState();
+  if (progression.levels.find(level => level.id === activeLevel)?.unlocked) return;
+  activeLevel = [...progression.levels].reverse().find(level => level.unlocked)?.id || window.CURRICULUM[0].id;
+  if (persist) saveState({ activeLevel });
+}
+
+ensureAccessibleActiveLevel();
+
 function levelStats(mod) {
   const done = loadState().lessons || {};
   const total = mod.lessons.length;
@@ -163,32 +181,41 @@ function levelStats(mod) {
 }
 
 function renderLevelGrid() {
-  $('#levelGrid').innerHTML = window.CURRICULUM.map(mod => {
+  const progression = progressionState();
+  $('#levelGrid').innerHTML = window.CURRICULUM.map((mod, index) => {
     const s = levelStats(mod);
-    return `<article class="level-card${s.percent === 100 ? ' complete' : ''}">
+    const access = progression.levels[index];
+    const previous = window.CURRICULUM[index - 1];
+    const status = access.complete ? 'Completado' : access.unlocked ? 'Disponible' : 'Bloqueado';
+    const requirement = access.unlocked ? '' : `<div class="level-lock-note"><strong>🔒 Requisito</strong> Completa todas las lecciones y aprueba el examen del Nivel ${previous.level}: ${previous.name}.</div>`;
+    return `<article class="level-card${access.complete ? ' complete' : ''}${access.unlocked ? '' : ' locked'}">
       <div class="level-head"><span class="level-num">Nivel ${mod.level}</span><span class="level-sub">${mod.subtitle}</span></div>
       <h3>${mod.name}</h3>
       <p>${mod.claim}</p>
       <div class="level-outcome">${mod.outcome}</div>
+      ${requirement}
       <div class="level-meta"><span>${mod.lessons.length} lecciones</span><span>${mod.hours}</span></div>
       <div class="progress-track"><span style="width:${s.percent}%"></span></div>
-      <div class="level-foot"><strong>${s.studied}/${s.total}</strong><button class="button ghost small" data-goto="${mod.id}">Ir al nivel</button></div>
+      <div class="level-foot"><strong>${status} · ${s.studied}/${s.total}</strong><button class="button ghost small" data-goto="${mod.id}" ${access.unlocked ? '' : 'disabled'}>${access.unlocked ? 'Ir al nivel' : 'Bloqueado'}</button></div>
     </article>`;
   }).join('');
 }
 
 function renderLevelTabs() {
-  $('#levelTabs').innerHTML = window.CURRICULUM.map(mod => {
+  const progression = progressionState();
+  $('#levelTabs').innerHTML = window.CURRICULUM.map((mod, index) => {
     const s = levelStats(mod);
+    const access = progression.levels[index];
     const selected = mod.id === activeLevel;
-    return `<button type="button" role="tab" id="level-tab-${mod.id}" class="level-tab${selected ? ' active' : ''}" data-level="${mod.id}"
-      aria-controls="levelContent" aria-selected="${selected}" tabindex="${selected ? 0 : -1}"><span>Nivel ${mod.level}</span><strong>${mod.name}</strong><i>${s.studied}/${s.total}</i></button>`;
+    return `<button type="button" role="tab" id="level-tab-${mod.id}" class="level-tab${selected ? ' active' : ''}${access.unlocked ? '' : ' locked'}" data-level="${mod.id}"
+      aria-controls="levelContent" aria-selected="${selected}" tabindex="${selected ? 0 : -1}" ${access.unlocked ? '' : `disabled title="Completa y aprueba el Nivel ${mod.level - 1}"`}><span>Nivel ${mod.level}</span><strong>${mod.name}</strong><i>${access.unlocked ? `${s.studied}/${s.total}` : '🔒 Prerrequisito pendiente'}</i></button>`;
   }).join('');
 }
 
 function renderAcademy() {
   const mod = window.CURRICULUM.find(m => m.id === activeLevel) || window.CURRICULUM[0];
   const s = levelStats(mod);
+  const access = levelAccess(mod.id);
   $('#levelContent').setAttribute('aria-labelledby', `level-tab-${mod.id}`);
 
   $('#levelBanner').innerHTML = `<div>
@@ -202,7 +229,7 @@ function renderAcademy() {
   $('#lessonIndex').innerHTML = mod.lessons.map(l => {
     const done = (loadState().lessons || {})[l.id];
     return `<a href="#${l.id}" class="${done ? 'done' : ''}"><span>${String(l.num).padStart(2, '0')}</span> ${l.title}</a>`;
-  }).join('') + `<a href="#evaluacion" class="index-exam"><span>✓</span> Examen del nivel</a>`;
+  }).join('') + `<a href="#evaluacion" class="index-exam${access.examUnlocked ? '' : ' locked'}" aria-disabled="${!access.examUnlocked}"><span>${access.examUnlocked ? '✓' : '🔒'}</span> ${access.examUnlocked ? 'Presentar examen del nivel' : `Examen bloqueado · estudia ${access.total - access.studied} ${access.total - access.studied === 1 ? 'lección' : 'lecciones'} más`}</a>`;
 
   $('#lessons').innerHTML = mod.lessons.map(renderLesson).join('');
   restoreLessonBoxes();
@@ -225,6 +252,7 @@ function restoreLessonBoxes() {
         if (mod.lessons[i]) a.classList.toggle('done', Boolean((loadState().lessons || {})[mod.lessons[i].id]));
       });
       renderBanner();
+      renderExamTabs(); renderExam(); renderExamScores();
     });
   });
 
@@ -260,7 +288,7 @@ function updateGlobalProgress() {
 
 $('#levelTabs').addEventListener('click', e => {
   const btn = e.target.closest('[data-level]');
-  if (!btn) return;
+  if (!btn || !levelAccess(btn.dataset.level)?.unlocked) return;
   activeLevel = btn.dataset.level;
   saveState({ activeLevel });
   renderLevelTabs(); renderAcademy();
@@ -268,7 +296,7 @@ $('#levelTabs').addEventListener('click', e => {
 
 $('#levelGrid').addEventListener('click', e => {
   const btn = e.target.closest('[data-goto]');
-  if (!btn) return;
+  if (!btn || !levelAccess(btn.dataset.goto)?.unlocked) return;
   activeLevel = btn.dataset.goto;
   saveState({ activeLevel });
   renderLevelTabs(); renderAcademy();
@@ -445,23 +473,54 @@ function buildCertification() {
   return picked.sort(() => Math.random() - 0.5).slice(0, window.CERTIFICACION.draw);
 }
 
+function examAccess(examId) {
+  const progression = progressionState();
+  if (examId === 'cert') {
+    return {
+      unlocked: progression.certificationUnlocked,
+      reason: 'Completa las lecciones y aprueba los exámenes de los cuatro niveles.'
+    };
+  }
+  const index = window.CURRICULUM.findIndex(level => level.id === examId);
+  const level = progression.levels[index];
+  if (!level?.unlocked) {
+    return { unlocked: false, reason: `Primero completa y aprueba el Nivel ${index}.` };
+  }
+  return {
+    unlocked: level.examUnlocked,
+    reason: `Estudia las ${level.total} lecciones del Nivel ${index + 1} antes de presentar su examen.`
+  };
+}
+
 function renderExamTabs() {
   const tabs = window.CURRICULUM.map(m => ({ id: m.id, label: `Nivel ${m.level}`, sub: m.name }));
   tabs.push({ id: 'cert', label: 'Final', sub: 'Certificación' });
   $('#examTabs').innerHTML = tabs.map(t => {
     const selected = t.id === activeExam;
-    return `<button type="button" role="tab" id="exam-tab-${t.id}" class="exam-tab${selected ? ' active' : ''}"
-      data-exam="${t.id}" aria-controls="examPanel" aria-selected="${selected}" tabindex="${selected ? 0 : -1}"><span>${t.label}</span><strong>${t.sub}</strong></button>`;
+    const access = examAccess(t.id);
+    return `<button type="button" role="tab" id="exam-tab-${t.id}" class="exam-tab${selected ? ' active' : ''}${access.unlocked ? '' : ' locked'}"
+      data-exam="${t.id}" aria-controls="examPanel" aria-selected="${selected}" tabindex="${selected ? 0 : -1}" ${access.unlocked ? '' : `disabled title="${access.reason}"`}><span>${t.label}</span><strong>${t.sub}</strong>${access.unlocked ? '' : '<i>🔒 Bloqueado</i>'}</button>`;
   }).join('');
 }
 
 function renderExam() {
   const isCert = activeExam === 'cert';
+  const access = examAccess(activeExam);
+  $('#examPanel').setAttribute('aria-labelledby', `exam-tab-${activeExam}`);
+  if (!access.unlocked) {
+    currentQuestions = [];
+    $('#quizForm').innerHTML = `<div class="exam-lock-panel"><span>🔒</span><div><strong>Evaluación bloqueada</strong><p>${access.reason}</p></div></div>`;
+    $('.quiz-actions').hidden = true;
+    $('#quizResult').className = 'quiz-result';
+    $('#quizResult').textContent = '';
+    $('#quizBadge').textContent = 'Bloqueado';
+    $('#quizBadge').classList.remove('passed');
+    return;
+  }
+  $('.quiz-actions').hidden = false;
   currentQuestions = isCert ? buildCertification() : window.EXAMENES[activeExam].questions;
   const title = isCert ? window.CERTIFICACION.title : window.EXAMENES[activeExam].title;
   const pass = isCert ? window.CERTIFICACION.pass : window.EXAMENES[activeExam].pass;
-  $('#examPanel').setAttribute('aria-labelledby', `exam-tab-${activeExam}`);
-
   $('#quizForm').innerHTML = `<p class="exam-title">${title} · se aprueba con ${pass} de ${currentQuestions.length}</p>` +
     currentQuestions.map((q, i) => `<fieldset>
       <legend>${i + 1}. ${q.q}</legend>
@@ -492,20 +551,22 @@ function renderExamScores() {
     { id: 'cert', name: 'Certificación final' }];
   $('#examScores').innerHTML = rows.map(r => {
     const s = scores[r.id];
-    const cls = s ? (s.passed ? 'ok' : 'retry') : 'idle';
-    const txt = s ? `${s.score}/${s.total} · ${s.passed ? 'aprobado' : 'reintentar'}` : 'sin presentar';
+    const access = examAccess(r.id);
+    const cls = s ? (s.passed ? 'ok' : 'retry') : access.unlocked ? 'idle' : 'locked';
+    const txt = s ? `${s.score}/${s.total} · ${s.passed ? 'aprobado' : 'reintentar'}` : access.unlocked ? 'disponible' : 'bloqueado';
     return `<div class="score-row ${cls}"><span>${r.name}</span><b>${txt}</b></div>`;
   }).join('');
 }
 
 $('#examTabs').addEventListener('click', e => {
   const btn = e.target.closest('[data-exam]');
-  if (!btn) return;
+  if (!btn || !examAccess(btn.dataset.exam).unlocked) return;
   activeExam = btn.dataset.exam;
   renderExamTabs(); renderExam();
 });
 
 $('#quizSubmit').addEventListener('click', () => {
+  if (!examAccess(activeExam).unlocked || !currentQuestions.length) return;
   const form = $('#quizForm');
   const data = new FormData(form);
   const isCert = activeExam === 'cert';
@@ -529,14 +590,16 @@ $('#quizSubmit').addEventListener('click', () => {
   const passed = score >= pass;
   const result = $('#quizResult');
   result.className = `quiz-result ${passed ? 'success' : 'retry'}`;
+  const currentIndex = window.CURRICULUM.findIndex(level => level.id === activeExam);
+  const nextLevel = window.CURRICULUM[currentIndex + 1];
   result.textContent = passed
-    ? `${score}/${currentQuestions.length} correctas. Aprobado${isCert ? ': completaste la certificación de la academia.' : ': puedes avanzar al siguiente nivel.'}`
+    ? `${score}/${currentQuestions.length} correctas. Aprobado${isCert ? ': completaste la certificación de la academia.' : nextLevel ? `. Nivel ${nextLevel.level}: ${nextLevel.name} desbloqueado.` : ': ya puedes presentar la certificación final.'}`
     : `${score}/${currentQuestions.length} correctas${unanswered ? ` (${unanswered} sin responder)` : ''}. Necesitas ${pass}. Revisa las explicaciones y vuelve a intentarlo.`;
 
   const exams = { ...(loadState().exams || {}) };
   exams[activeExam] = { score, total: currentQuestions.length, passed, date: new Date().toISOString().slice(0, 10) };
   saveState({ exams });
-  updateQuizBadge(); renderExamScores(); renderDataSummary();
+  updateQuizBadge(); renderExamScores(); renderDataSummary(); renderLevelGrid(); renderLevelTabs(); renderExamTabs();
   result.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
 

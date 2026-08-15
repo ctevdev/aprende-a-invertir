@@ -17,6 +17,11 @@
 .level-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .level-card{display:flex;flex-direction:column;gap:10px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px}
 .level-card.complete{border-color:#a9c85e;box-shadow:inset 0 4px var(--lime)}
+.level-card.locked{border-color:#d8ddd8;background:#f1f3ef;color:#718078}
+.level-card.locked .level-outcome,.level-card.locked .progress-track{background:#e4e8e3}
+.level-card.locked .level-num{color:#718078}
+.level-lock-note{padding:12px 13px;border-radius:10px;background:#fff7ee;color:#76533b;font-size:.78rem;line-height:1.45}
+.level-lock-note strong{display:block;color:#5e3c24}
 .level-head{display:flex;justify-content:space-between;align-items:center}
 .level-num{font-size:.72rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
 .level-sub{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
@@ -27,6 +32,7 @@
 .level-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px}
 .level-foot strong{font-size:1.05rem}
 .button.small{padding:8px 15px;font-size:.8rem}
+.button:disabled{cursor:not-allowed;transform:none!important;opacity:.55}
 .button.ghost{border:1px solid #547366;color:var(--ink);background:transparent}
 .hero .button.ghost{color:#fff}
 .button.ghost.solid{border-color:var(--line);background:#fff}
@@ -46,6 +52,8 @@
 .level-tab.active{background:#18382c;border-color:#18382c;color:#fff}
 .level-tab.active span{color:var(--lime)}
 .level-tab.active i{color:#b8c8c0}
+.level-tab.locked{cursor:not-allowed;background:#eef1ed;color:#7c8881;border-color:#d8ddd8}
+.level-tab.locked span,.level-tab.locked i{color:#7c8881}
 .level-banner{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px 28px;margin-bottom:28px}
 .level-banner h3{margin:2px 0 6px;font-size:1.5rem}
 .level-banner p{margin:0;color:var(--muted);font-size:.9rem}
@@ -55,6 +63,7 @@
 .banner-progress .lesson-progress span{background:var(--green)}
 .lesson-index a.done{color:var(--green);font-weight:700}
 .lesson-index a.index-exam{border:0;margin-top:6px;font-weight:800;color:var(--ink)}
+.lesson-index a.index-exam.locked{color:#8a6a52;cursor:not-allowed}
 
 /* — Bloques de lección — */
 .lesson-goal{margin:6px 0 0;color:var(--muted);font-size:.88rem;max-width:52ch}
@@ -162,6 +171,12 @@
 .exam-tab strong{font-size:.92rem}
 .exam-tab.active{background:#18382c;border-color:#18382c;color:#fff}
 .exam-tab.active span{color:var(--lime)}
+.exam-tab i{font-style:normal;font-size:.68rem;color:var(--muted);margin-top:3px}
+.exam-tab.locked{cursor:not-allowed;background:#eef1ed;color:#7c8881;border-color:#d8ddd8}
+.exam-tab.locked span,.exam-tab.locked i{color:#7c8881}
+.exam-lock-panel{grid-column:1/-1;display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:center;padding:24px;border:1px solid #e5d4c6;border-radius:14px;background:#fff7ee;color:#69462d}
+.exam-lock-panel>span{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#f1dfcf;font-size:1.25rem}
+.exam-lock-panel strong{display:block;font-size:1.05rem}.exam-lock-panel p{margin:3px 0 0;color:#80634e;font-size:.88rem}
 .exam-title{grid-column:1/-1;margin:0;font-weight:800;color:var(--muted);font-size:.85rem}
 .quiz-form fieldset.right{border-color:#a9c85e;background:#fbfff4}
 .quiz-form fieldset.wrong{border-color:#e3b39c;background:#fffaf6}
@@ -175,6 +190,7 @@
 .score-row.retry{border-color:#e8c3ae}
 .score-row.retry b{color:#a3592c}
 .score-row.idle b{color:var(--muted)}
+.score-row.locked{background:#f0f2ef;color:#78847d}.score-row.locked b{color:#78847d}
 
 /* — Glosario — */
 .glossary-grid article h3{font-size:1.06rem}
